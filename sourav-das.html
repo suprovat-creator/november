@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sourav Das</title>
+<style>
+    main{
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  user-select: none;
+}
+.cards{
+    width: 320px;
+    height: auto;
+    border-radius: 20px;
+    margin: 15px;
+    box-shadow: 6px 27px 50px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+/*     opacity: 0; */
+    animation: zoomin 1s 1s ease-in-out 1 forwards;
+}
+
+.cards img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    padding: 10px;
+    display: inline-block;
+    border-radius: 20px;
+}
+
+#open{
+ width: 50px;
+ height: 50px;
+ border-radius: 50%;
+ background-color: #fff;
+ position: absolute;
+ z-index: 1;
+ text-align: center;
+ line-height: 50px;
+ font-size: 14px;
+ font-weight: bolder;
+ color: #62acb5;
+ opacity: 100;
+ cursor: pointer;
+ transition: all 300ms ease-in-out;
+}
+#overlay1{
+    width: 50%;
+    height: 100%;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+    background: #8EE3F5;
+    position: absolute;
+    left: 0;
+    transition: all 300ms ease-in-out;
+    transition-delay: 300ms;
+}
+#overlay2{
+    width: 50%;
+    height: 100%;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    background: #70CAD1;
+    position: absolute;
+    right: 0;
+    transition: all 300ms ease-in-out;
+    transition-delay: 300ms;
+}
+
+@keyframes zoomin{
+    0%{
+        transform: scale(0);
+    }
+    100%{
+        transform: scale(1);
+        opacity: 100%;
+    }
+}
+
+.active #open{
+    opacity: 0;
+}
+.active #overlay1 , .active #overlay2{
+    width: 0%;
+}
+</style>
+</head>
+<body>
+    <main>
+<div class="cards" id="card1">
+<div id="overlay1"></div>
+<span id="open">Open</span>
+<div id="overlay2"></div>
+
+<img src="https://suprovat-creator.github.io/november/sourav-das.jpg" alt="">
+</div>
+ </main>
+
+ <script>
+    let Card1 = document.getElementById('card1');
+let Openbtn = document.getElementById('open');
+let overlay1 = document.getElementById('overlay1');
+let overlay2 = document.getElementById('overlay2');
+
+Card1.addEventListener('click' , function(){
+    Card1.classList.toggle('active');
+})   
+</script>   
+</body>
+</html>
