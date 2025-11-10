@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>সুপ্রভাত অদিতি দিদি !</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            overflow: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            body {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            }
+        }
+
+        .envelope-container {
+            position: relative;
+            width: 320px;
+            height: 200px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .envelope-container:hover {
+            transform: scale(1.05);
+        }
+
+        /* Envelope body */
+        .envelope {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, #f4e7d7 0%, #e8d5c4 100%);
+            border: 2px solid #c9b196;
+            border-radius: 4px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Envelope flap */
+        .envelope-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 160px solid transparent;
+            border-right: 160px solid transparent;
+            border-top: 120px solid #d4c3b0;
+            border-top-color: #d4c3b0;
+            transform-origin: top center;
+            z-index: 10;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Envelope inner triangle shadow */
+        .envelope-back::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 160px solid transparent;
+            border-right: 160px solid transparent;
+            border-bottom: 100px solid #e8d5c4;
+        }
+
+        /* Red lines decoration */
+        .envelope-lines {
+            position: absolute;
+            top: 50%;
+            left: 20px;
+            right: 20px;
+            transform: translateY(-50%);
+        }
+
+        .envelope-line {
+            width: 100%;
+            height: 2px;
+            background: rgba(200, 100, 100, 0.3);
+            margin: 8px 0;
+        }
+
+        /* Signature style */
+        .signature {
+            position: absolute;
+            bottom: 15px;
+            right: 20px;
+            font-family: 'Brush Script MT', cursive;
+            font-size: 20px;
+            color: #2c3e50;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+            z-index: 5;
+        }
+
+        /* Photo */
+        .photo {
+            position: fixed;
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 1000;
+            transition: all 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .photo.in-envelope {
+            width: 80px;
+            height: 80px;
+            opacity: 0;
+            transform: scale(0.5) rotate(-5deg);
+        }
+
+        .photo.centered {
+            width: 400px;
+            height: 500px;
+            opacity: 1;
+            transform: scale(1) rotate(0deg) translateY(-20px);
+        }
+
+        @media (max-width: 640px) {
+            .envelope-container {
+                width: 280px;
+                height: 175px;
+            }
+
+            .envelope-flap {
+                border-left: 140px solid transparent;
+                border-right: 140px solid transparent;
+                border-top: 105px solid #d4c3b0;
+            }
+
+            .envelope-back::before {
+                border-left: 140px solid transparent;
+                border-right: 140px solid transparent;
+                border-bottom: 88px solid #e8d5c4;
+            }
+
+            .photo.centered {
+                width: 90vw;
+                max-width: 350px;
+                height: auto;
+                aspect-ratio: 4/5;
+            }
+
+            .signature {
+                font-size: 18px;
+                bottom: 12px;
+                right: 15px;
+            }
+        }
+
+        /* Stamp */
+        .stamp {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 50px;
+            height: 50px;
+            background: white;
+            border: 2px dashed #c9b196;
+            border-radius: 4px;
+            z-index: 5;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .stamp::after {
+            content: '✉';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            color: #c9b196;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen">
+    <!-- Envelope -->
+    <div id="envelopeContainer" class="envelope-container">
+        <div class="envelope">
+            <!-- Back triangle -->
+            <div class="envelope-back"></div>
+
+            <!-- Decorative lines -->
+            <div class="envelope-lines">
+                <div class="envelope-line"></div>
+                <div class="envelope-line"></div>
+                <div class="envelope-line"></div>
+            </div>
+
+            <!-- Signature -->
+            <div class="signature">Aditi</div>
+
+            <!-- Stamp -->
+            <div class="stamp"></div>
+        </div>
+
+        <!-- Flap -->
+        <div class="envelope-flap"></div>
+    </div>
+
+    <!-- Photo -->
+    <img id="photo"
+         src="https://suprovat-creator.github.io/november/6.png"
+         alt="Photo"
+         class="photo in-envelope">
+
+    <script>
+        const envelope = document.getElementById('envelopeContainer');
+        const photo = document.getElementById('photo');
+        let isPhotoOut = false;
+
+        // Get envelope position
+        function getEnvelopeCenter() {
+            const rect = envelope.getBoundingClientRect();
+            return {
+                x: rect.left + rect.width / 2,
+                y: rect.top + rect.height / 2
+            };
+        }
+
+        // Get screen center
+        function getScreenCenter() {
+            return {
+                x: window.innerWidth / 2,
+                y: window.innerHeight / 2
+            };
+        }
+
+        // Position photo in envelope
+        function positionPhotoInEnvelope() {
+            const envelopeCenter = getEnvelopeCenter();
+            photo.style.left = `${envelopeCenter.x}px`;
+            photo.style.top = `${envelopeCenter.y}px`;
+            photo.style.transform = 'translate(-50%, -50%) scale(0.5) rotate(-5deg)';
+        }
+
+        // Position photo in center
+        function positionPhotoInCenter() {
+            const screenCenter = getScreenCenter();
+            photo.style.left = `${screenCenter.x}px`;
+            photo.style.top = `${screenCenter.y}px`;
+            photo.style.transform = 'translate(-50%, -50%) scale(1) rotate(0deg) translateY(-20px)';
+        }
+
+        // Initialize photo position
+        positionPhotoInEnvelope();
+
+        // Click on envelope
+        envelope.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (!isPhotoOut) {
+                photo.classList.remove('in-envelope');
+                photo.classList.add('centered');
+                positionPhotoInCenter();
+                isPhotoOut = true;
+            }
+        });
+
+        // Click outside envelope
+        document.body.addEventListener('click', (e) => {
+            if (isPhotoOut && !envelope.contains(e.target) && e.target !== photo) {
+                photo.classList.remove('centered');
+                photo.classList.add('in-envelope');
+                positionPhotoInEnvelope();
+                isPhotoOut = false;
+            }
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            if (isPhotoOut) {
+                positionPhotoInCenter();
+            } else {
+                positionPhotoInEnvelope();
+            }
+        });
+
+        // Dark mode support
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark');
+        }
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+            if (event.matches) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        });
+    </script>
+</body>
+</html>
